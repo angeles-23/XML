@@ -270,13 +270,13 @@ Ejemplo: Crear un tipo que permita valores decimales con hasta 2 cifras decimale
 </xsd:simpleType>
 ```
 
-#### 3.2.2. Element *`<xsd:restriction>`*
+#### 3.2.3. Element *`<xsd:extension>`*
 
 
-#### 3.2.3. Element *`<xsd:restriction>`*
+#### 3.2.3. Element *`<xsd:list>`*
 
 
-#### 3.2.4. Element *`<xsd:restriction>`*
+#### 3.2.4. Element *`<xsd:union>`*
 
 
 #### 3.2.5. Element *`<xsd:restriction>`*
@@ -286,7 +286,9 @@ Ejemplo: Crear un tipo que permita valores decimales con hasta 2 cifras decimale
 
 
 
+``` xml
 
+```
 
 
 ``` xml
@@ -294,19 +296,9 @@ Ejemplo: Crear un tipo que permita valores decimales con hasta 2 cifras decimale
 ```
 
 
-
-
 ``` xml
 
 ```
-
-
-
-
-``` xml
-
-```
-
 
 
 ``` xml
