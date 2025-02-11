@@ -229,7 +229,7 @@ Dentro del elemento `<xsd:complexType>`, se pueden agregar elementos como los si
     - `<xsd:duration>`: Períodos de tiempo como `P1Y4M21DT8H` (1 año, 4 meses, 21 días, 8 horas).
     - `<xsd:boolean>`: `true` o `false`.
     - `<xsd:anyURI>`: Direcciones URI.
-    - `<xsd:anyType>`: Tipo genérico simiñar a la clase `Object` en Java
+    - `<xsd:anyType>`: Tipo genérico similar a la clase `Object` en Java
 
 
 ### 3.2. Derivaciones de Tipos Simples *`<xsd:simpleType>`*
@@ -270,13 +270,50 @@ Ejemplo: Crear un tipo que permita valores decimales con hasta 2 cifras decimale
 </xsd:simpleType>
 ```
 
-#### 3.2.3. Element *`<xsd:extension>`*
+#### 3.2.2. Element *`<xsd:extension>`*
+- Amplia un tipo que ya existe agregando atributos o elementos adicionales
+- Son útiles para definir tipos más complejos a partir de otros más simples
+  
+Ejemplo: Crear un tipo extendido para representar una dirección con campos adicionales.
+``` xml
+<xsd:complexType name="direccionBase">
+  <xsd:sequence>
+    <xsd:element name="calle" type="xsd:string"/>
+    <xsd:element name="ciudad" type="xsd:string"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="direccionCompleta">
+  <xsd:complexContent>
+    <xsd:extension base="direccionBase">
+      <xsd:sequence>
+        <xsd:element name="codigoPostal" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:extension>
+  </xsd:complexContent>
+</xsd:complexType>
+```
+Explicación:
+- Tipo complejo `<direccionBase>`
+- Dentro, `<xsd:sequence>` para indicar el orden
+- Elementos hijos: `calle` y `ciudad`, ambos `<xsd:string>`
+- Tipo complejo `<direccionCompleta>`
+- Dentro, `<xsd:complexContent>` indica que el contenido complejo se basa en otro tipo complejo
+- Dentro de `<xsd:complexContent>`, se usa `<xsd:extension base="direccionBase">` para extender direccionBase, es decir, que `<direccionCompleta>` hereda los elementos calle y ciudad de direccionBase.
+
+XML:
+```xml
+<direccionCompleta>
+  <calle>Avenida de la Constitución</calle>
+  <ciudad>Madrid</ciudad>
+  <codigoPostal>28001</codigoPostal>
+</direccionCompleta>
+```
+
+#### 3.2.3. Element *`<xsd:restriction>`*
 
 
-#### 3.2.3. Element *`<xsd:list>`*
-
-
-#### 3.2.4. Element *`<xsd:union>`*
+#### 3.2.4. Element *`<xsd:restriction>`*
 
 
 #### 3.2.5. Element *`<xsd:restriction>`*
@@ -286,19 +323,23 @@ Ejemplo: Crear un tipo que permita valores decimales con hasta 2 cifras decimale
 
 
 
-``` xml
-
-```
 
 
-``` xml
 
-```
+
 
 
 ``` xml
 
 ```
+
+
+
+
+``` xml
+
+```
+
 
 
 ``` xml
