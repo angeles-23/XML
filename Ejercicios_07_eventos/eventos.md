@@ -42,91 +42,6 @@ Deberás crear tres documentos:
 - **4 eventos** con información completa (tipo, fecha, hora, lugar, participantes).
 - **3 relaciones** que conecten eventos mediante sus IDs.
 
-``` xml
-<?xml version="1.0" encoding="UTF-8"?>
-
-<agenda>
-  <eventos>
-    <evento id="e_001" tipo="Conferencia">
-      <fecha>2024-02-05</fecha> <!-- AAAA-MM-DD -->
-      <hora>11:45</hora>   <!-- HH:MM -->
-      <lugar>
-        <calle>Juan Carlos I</calle>
-        <ciudad>Lorca</ciudad>
-        <pais>España</pais>
-      </lugar>
-      <participantes>
-        <participante>
-          <nombre>Miguel Fernández Cuadrado</nombre>
-          <email>miguel@gmail.com</email>
-          <rol>Asistente</rol>
-        </participante>
-      </participantes>
-    </evento>
-    
-    <evento id="e_002" tipo="Taller">
-      <fecha>2024-06-08</fecha> <!-- AAAA-MM-DD -->
-      <hora>10:45</hora>   <!-- HH:MM -->
-      <lugar>
-        <calle>Avenida Libertad</calle>
-        <ciudad>Madrid</ciudad>
-        <pais>España</pais>
-      </lugar>
-      <participantes>
-        <participante>
-          <nombre>Ana López Pérez</nombre>
-          <email>ana@gmail.com</email>
-          <rol>Ponente</rol>
-        </participante>
-      </participantes>
-    </evento>
-    
-    <evento id="e_003" tipo="Reunión">
-      <fecha>2024-09-07</fecha> <!-- AAAA-MM-DD -->
-      <hora>16:00</hora>   <!-- HH:MM -->
-      <lugar>
-        <calle>Calle Mayor</calle>
-        <ciudad>Murcia</ciudad>
-        <pais>España</pais>
-      </lugar>
-      <participantes>
-        <participante>
-          <nombre>Juan Martínez García</nombre>
-          <email>juan@gmail.com</email>
-          <rol>Moderador</rol>
-        </participante>
-      </participantes>
-    </evento>
-    
-    <evento id="e_004" tipo="MesaRedonda">
-      <fecha>2024-11-19</fecha> <!-- AAAA-MM-DD -->
-      <hora>18:00</hora>   <!-- HH:MM -->
-      <lugar>
-        <calle>Gran Vía</calle>
-        <ciudad>Valencia</ciudad>
-        <pais>España</pais>
-      </lugar>
-      <participantes>
-        <participante>
-          <nombre>Pedro Álvarez Jiménez</nombre>
-          <email>pedro@gmail.com</email>
-          <rol>Asistente</rol>
-        </participante>
-      </participantes>
-    </evento>
-  </eventos>
-  
-  <relaciones>
-    <relacion origen="e_001" destino="e_002"></relacion>
-    <relacion origen="e_002" destino="e_003"></relacion>
-    <relacion origen="e_003" destino="e_004"></relacion>
-  </relaciones>
-</agenda>
-```
-
-
-
-
 
 ### Especificaciones del DTD:
 
@@ -143,40 +58,6 @@ Deberás crear tres documentos:
 
 3. **Estructura del DTD:**
    - Define reglas básicas para los elementos y atributos.
-
-``` xml
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!DOCTYPE agenda [
-  <!ELEMENT agenda (eventos, relaciones)>
-  <!ELEMENT eventos (evento+)>
-  <!ELEMENT evento (fecha, hora, lugar, participantes)>
-  <!ELEMENT lugar (calle, ciudad, pais)>
-  <!ELEMENT participantes (participante+)>
-  <!ELEMENT participante (nombre, email, rol)>
-  <!ELEMENT relaciones (relacion+)>
-  <!ATTLIST evento
-    id ID #REQUIRED
-    tipo (Conferencia|Taller|Reunión|MesaRedonda) #REQUIRED
-  >
-  <!ATTLIST relacion
-    origen IDREF #REQUIRED
-    destino IDREF #REQUIRED
-  >
-  <!ELEMENT fecha (#PCDATA)>
-  <!ELEMENT hora (#PCDATA)>
-  <!ELEMENT calle (#PCDATA)>
-  <!ELEMENT ciudad (#PCDATA)>
-  <!ELEMENT pais (#PCDATA)>
-  <!ELEMENT nombre (#PCDATA)>
-  <!ELEMENT email (#PCDATA)>
-  <!ELEMENT rol (#PCDATA)>
-  <!ELEMENT relacion (#PCDATA)>
-]>
-```
-
-
-
 
 
 ### Especificaciones del XSD:
@@ -203,90 +84,7 @@ Deberás crear tres documentos:
 1. **XML**: Archivo que contiene información sobre la agenda de eventos.
 2. **DTD**: Archivo que define las reglas básicas de validación.
 3. **XSD**: Archivo que incluye reglas avanzadas de validación.
-
 ---
-
-``` xml
-<agenda>
-  <eventos>
-    <evento id="e_001" tipo="Conferencia">
-      <fecha>2024-02-05</fecha> <!-- AAAA-MM-DD -->
-      <hora>11:45</hora>   <!-- HH:MM -->
-      <lugar>
-        <calle>Juan Carlos I</calle>
-        <ciudad>Lorca</ciudad>
-        <pais>España</pais>
-      </lugar>
-      <participantes>
-        <participante>
-          <nombre>Miguel Fernández Cuadrado</nombre>
-          <email>miguel@gmail.com</email>
-          <rol>Asistente</rol>
-        </participante>
-      </participantes>
-    </evento>
-    
-    <evento id="e_002" tipo="Taller">
-      <fecha>2024-06-08</fecha> <!-- AAAA-MM-DD -->
-      <hora>10:45</hora>   <!-- HH:MM -->
-      <lugar>
-        <calle>Avenida Libertad</calle>
-        <ciudad>Madrid</ciudad>
-        <pais>España</pais>
-      </lugar>
-      <participantes>
-        <participante>
-          <nombre>Ana López Pérez</nombre>
-          <email>ana@gmail.com</email>
-          <rol>Ponente</rol>
-        </participante>
-      </participantes>
-    </evento>
-    
-    <evento id="e_003" tipo="Reunión">
-      <fecha>2024-09-07</fecha> <!-- AAAA-MM-DD -->
-      <hora>16:00</hora>   <!-- HH:MM -->
-      <lugar>
-        <calle>Calle Mayor</calle>
-        <ciudad>Murcia</ciudad>
-        <pais>España</pais>
-      </lugar>
-      <participantes>
-        <participante>
-          <nombre>Juan Martínez García</nombre>
-          <email>juan@gmail.com</email>
-          <rol>Moderador</rol>
-        </participante>
-      </participantes>
-    </evento>
-    
-    <evento id="e_004" tipo="MesaRedonda">
-      <fecha>2024-11-19</fecha> <!-- AAAA-MM-DD -->
-      <hora>18:00</hora>   <!-- HH:MM -->
-      <lugar>
-        <calle>Gran Vía</calle>
-        <ciudad>Valencia</ciudad>
-        <pais>España</pais>
-      </lugar>
-      <participantes>
-        <participante>
-          <nombre>Pedro Álvarez Jiménez</nombre>
-          <email>pedro@gmail.com</email>
-          <rol>Asistente</rol>
-        </participante>
-      </participantes>
-    </evento>
-  </eventos>
-
-  <relaciones>
-    <relacion origen="e_001" destino="e_002"/>
-    <relacion origen="e_002" destino="e_003"/>
-    <relacion origen="e_003" destino="e_004"/>
-  </relaciones>
-</agenda>
-```
-
-
 
 ### 1. SOLICIÓN XML
 ```xml
@@ -418,6 +216,22 @@ Deberás crear tres documentos:
         <xsd:element name="relaciones" type="relacionesType"/>
       </xsd:sequence>
     </xsd:complexType>
+    
+    <xsd:key name="eventoId">
+      <xsd:selector xpath="eventos/evento"/>
+      <xsd:field xpath="@id"/>
+    </xsd:key>
+    
+    <xsd:keyref name="relacionOrigen" refer="eventoId">
+      <xsd:selector xpath="relaciones/relacion"/>
+      <xsd:field xpath="@origen"/>
+    </xsd:keyref>
+    
+    <xsd:keyref name="relacionDestino" refer="eventoId">
+      <xsd:selector xpath="relaciones/relacion"/>
+      <xsd:field xpath="@destino"/>
+    </xsd:keyref>
+    
   </xsd:element>
   
   <xsd:complexType name="eventosType">
@@ -428,30 +242,96 @@ Deberás crear tres documentos:
   
   <xsd:complexType name="eventoType">
     <xsd:sequence>
-      <xsd:element name="fecha" type="fechaType"/> <!--xsd:string: para que no de error -->
-      <xsd:element name="hora" type="horaType"/>  <!--xsd:string: para que no de error -->
+      <xsd:element name="fecha" type="fechaType"/>
+      <xsd:element name="hora" type="horaType"/>
       <xsd:element name="lugar" type="lugarType"/>
       <xsd:element name="participantes" type="participantesType"/>
     </xsd:sequence>
-    <xsd:attribute name="id" type="idEventosType" use="required"/>
-    <xsd:attribute name="tipo" type="tipoEventosType" use="required"/>
+    <xsd:attribute name="id" type="idEventoType" use="required"/>
+    <xsd:attribute name="tipo" type="tipoEventoType" use="required"/>
   </xsd:complexType>
   
-  <xsd:simpleType name="idEventosType">
+  <xsd:simpleType name="idEventoType">
     <xsd:restriction base="xsd:string">
-      <xsd:pattern value="[e]_[0-9]{3}"/>
+      <xsd:pattern value="e_00[0-9]"/>
     </xsd:restriction>
   </xsd:simpleType>
   
-  <xsd:simpleType name="tipoEventosType">
+  <xsd:simpleType name="tipoEventoType">
     <xsd:restriction base="xsd:string">
       <xsd:enumeration value="Conferencia"/>
       <xsd:enumeration value="Taller"/>
       <xsd:enumeration value="Reunión"/>
-      <xsd:enumeration value="MesaRueda"/>
+      <xsd:enumeration value="MesaRedonda"/>
     </xsd:restriction>
   </xsd:simpleType>
   
+  <xsd:simpleType name="fechaType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>   <!-- \d{4}-\d{2}-\d{2} -->
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:simpleType name="horaType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9]{2}:[0-9]{2}"/>   <!-- \d{2}:\d{2} -->
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:complexType name="lugarType">
+    <xsd:sequence> 
+      <xsd:element name="calle" type="xsd:string"/>
+      <xsd:element name="ciudad" type="ciudadType"/>
+      <xsd:element name="pais" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:simpleType name="ciudadType">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="3"/>
+      <xsd:maxLength value="50"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:complexType name="participantesType">
+    <xsd:sequence>
+      <xsd:element name="participante" type="participanteType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="participanteType">
+    <xsd:sequence>
+      <xsd:element name="nombre" type="xsd:string"/>
+      <xsd:element name="email" type="emailType"/>
+      <xsd:element name="rol" type="rolType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:simpleType name="emailType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9._%+-]+\.[a-z]{2,6}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:simpleType name="rolType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Ponente"/>
+      <xsd:enumeration value="Moderador"/>
+      <xsd:enumeration value="Asistente"/>
+      <xsd:enumeration value="Instructor"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:complexType name="relacionesType">
+    <xsd:sequence>
+      <xsd:element name="relacion" type="relacionType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+    
+  <xsd:complexType name="relacionType">
+    <xsd:attribute name="origen" type="idEventoType" use="required"/>
+    <xsd:attribute name="destino" type="idEventoType" use="required"/>
+  </xsd:complexType>
+  
 </xsd:schema>
-
 ```
