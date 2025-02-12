@@ -116,7 +116,6 @@ Existen varios tipos de datos predefinidos en XSD que se pueden utilizar para de
 
 Ejemplo: Esquema para validar la edad de un trabajador, es un valor entero entre 16 y 65
 ``` xml
-
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
     <xsd:element name="edad" type="edadType"/>
@@ -129,6 +128,9 @@ Ejemplo: Esquema para validar la edad de un trabajador, es un valor entero entre
     </xsd:simpleType>
 
 </xsd:schema>
+
+<!-- XML -->
+<edad>30</edad>
 ```
 
 ### 2.2. Tipos Complejos
@@ -327,6 +329,9 @@ Ejemplo: Crear un tipo que permita valores decimales con hasta 2 cifras decimale
             <xsd:fractionDigits value="2"/>
     </xsd:restriction>
 </xsd:simpleType>
+
+<!-- XML -->
+<precio>123.45</precio>
 ```
 
 #### 3.2.2. Element *`<xsd:extension>`*
@@ -390,10 +395,10 @@ Explicación:
     </xsd:simpleType>
 
   </xsd:schema>
-  ```
-  XML:
-  `<colores>`rojo azul verde amarillo`</colores>`
-
+  
+  <!-- XML -->
+  <colores>rojo azul verde amarillo</colores>
+    ```
 
 #### 3.2.4. Element *`<xsd:restriction>`*
 
@@ -408,13 +413,9 @@ Explicación:
 
 
 
-
-
-
 ``` xml
 
 ```
-
 
 
 
