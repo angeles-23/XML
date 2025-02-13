@@ -175,9 +175,9 @@ Dentro del elemento `<xsd:complexType>`, se pueden agregar elementos como los si
 - **xsd:sequence**:	Especifica una secuencia ordenada de elementos hijos. Los elementos deben aparecer en el orden indicado.
 - **xsd:choice**:	Se utiliza cuando el orden o la combinación de elementos hijos no está restringida, es decir, no impone un orden fijo entre los elementos hijos.
 - **xsd:attribute**: Agrega atributos a un tipo complejo. Se puede especificar el nombre (name) y el tipo de atributo (type).
+- **xsd:all**: Permite que aparezca todos los elementos pero solo 1 vez, da igual el orden.
 
-
-1. `<xsd:sequence>`: Ejemplo, se define un tipo complejo llamado «Persona» que contiene dos elementos hijos: «Nombre» y «Apellido». Ambos elementos tienen un tipo de dato simple «xsd:string».
+1. **`<xsd:sequence>`**: Ejemplo, se define un tipo complejo llamado «Persona» que contiene dos elementos hijos: «Nombre» y «Apellido». Ambos elementos tienen un tipo de dato simple «xsd:string».
 
     ``` xml
     <xsd:complexType name="persona">
@@ -194,7 +194,7 @@ Dentro del elemento `<xsd:complexType>`, se pueden agregar elementos como los si
     </persona>
     ```
 
-2. `<xsd:choice>`: Ejemplo, se define un tipo complejo «Animal» que permite que aparezcan todos los elementos hijos en cualquier orden. También es posible que solo uno de los elementos hijos («perro», «gato» o «Bird») esté presente en un momento dado, para ello hay que modificar choice.
+2. **`<xsd:choice>`**: Ejemplo, se define un tipo complejo «Animal» que permite que aparezcan todos los elementos hijos en cualquier orden. También es posible que solo uno de los elementos hijos («perro», «gato» o «Bird») esté presente en un momento dado, para ello hay que modificar choice.
 
     ``` xml
     <xsd:complexType name="animal">
@@ -221,7 +221,7 @@ Dentro del elemento `<xsd:complexType>`, se pueden agregar elementos como los si
     </animal>
     ```
 
-3. `<xsd:attribute>`: Ejemplo 1, se agrega el atributo «edad» al tipo complejo «persona» con un tipo de dato «xsd:string».
+3. **`<xsd:attribute>`**: Ejemplo 1, se agrega el atributo «edad» al tipo complejo «persona» con un tipo de dato «xsd:string».
     ``` xml
     <xsd:complexType name="persona">
         <xsd:sequence>
@@ -262,35 +262,61 @@ Dentro del elemento `<xsd:complexType>`, se pueden agregar elementos como los si
     </libro>
       ```
 
+4. **`<xsd:all>`**: Ejemplo, define un tipo complejo «direccion» que necesita todos los elementos hijos («calle», «ciudad» y «pais») estén presentes en cualquier orden.
+
+```xml
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="direccion" type="direccionType"/>
+
+    <xsd:complexType name="direccionType">
+        <xs:all>
+            <xsd:element name="calle" type="xsd:string"/>
+            <xsd:element name="ciudad" type="xsd:string"/>
+            <xsd:element name="pais" type="xsd:string"/>
+        </xsd:all>
+    </xsd:complexType>
+
+    </xsd:schema>
+
+    <!-- XML -->
+    <direccion>
+        <pais>España</pais>
+        <ciudad>Zaragoza</ciudad>
+        <calle>Calle Aventura 12</calle>
+    </direccion>
+```
+
+
 ## 3. Restricciones de elementos
 ### 3.1. Tipos de datos
 - **Enteros**
-  - `<xsd:byte>`: Con signo de 8 bits.
-  - `<xsd:short>`: Con signo de 16 bits.
-  - `<xsd:int>`: Con signo de 32 bits.
-  - `<xsd:long>`: Con signo de 64 bits.
-  - `<xsd:integer>`: Sin límite de tamaño.
-  - `<xsd:unsignedByte>`: Sin signo de 8 bits.
-  - `<xsd:unsignedShort>`: Sin signo de 16 bits.
-  - `<xsd:unsignedInt>`: Sin signo de 32 bits.
-  - `<xsd:unsignedLong>`: Sin signo de 64 bits.
+  - **`<xsd:byte>`**: Con signo de 8 bits.
+  - **`<xsd:short>`**: Con signo de 16 bits.
+  - **`<xsd:int>`**: Con signo de 32 bits.
+  - **`<xsd:long>`**: Con signo de 64 bits.
+  - **`<xsd:integer>`**: Sin límite de tamaño.
+  - **`<xsd:unsignedByte>`**: Sin signo de 8 bits.
+  - **`<xsd:unsignedShort>`**: Sin signo de 16 bits.
+  - **`<xsd:unsignedInt>`**: Sin signo de 32 bits.
+  - **`<xsd:unsignedLong>`**: Sin signo de 64 bits.
   
 - **Números Reales**
-    - `<xsd:decimal>`: De precisión arbitraria.
-    - `<xsd:float>`: De precisión simple (32 bits). 
-    - `<xsd:double>`: De precisión doble (64 bits). 
+    - **`<xsd:decimal>`**: De precisión arbitraria.
+    - **`<xsd:float>`**: De precisión simple (32 bits). 
+    - **`<xsd:double>`**: De precisión doble (64 bits). 
 - **Texto**
-    - `<xsd:string>`: Cadena de caracteres que respetan los espacios en blanco.
-    - `<xsd:normalizedString>`: Cadena de caracteres donde los espacios en blanco consecutivos se reemplazan por un solo espacio.
+    - **`<xsd:string>`**: Cadena de caracteres que respetan los espacios en blanco.
+    - **`<xsd:normalizedString>`**: Cadena de caracteres donde los espacios en blanco consecutivos se reemplazan por un solo espacio.
 - **Fechas y tiempos**
-    - `<xsd:date>`: Formato fecha `AAAA-MM-DD`.
-    - `<xsd:time>`: Formato hora `HH:MM:SS.C`
-    - `<xsd:dateTime>`: Formato combinado `AAAA-MM-DDTHH:MM:SS.C`
+    - **`<xsd:date>`**: Formato fecha `AAAA-MM-DD`.
+    - **`<xsd:time>`**: Formato hora `HH:MM:SS.C`
+    - **`<xsd:dateTime>`**: Formato combinado `AAAA-MM-DDTHH:MM:SS.C`
 - **Otros Tipos**
-    - `<xsd:duration>`: Períodos de tiempo como `P1Y4M21DT8H` (1 año, 4 meses, 21 días, 8 horas).
-    - `<xsd:boolean>`: `true` o `false`.
-    - `<xsd:anyURI>`: Direcciones URI.
-    - `<xsd:anyType>`: Tipo genérico similar a la clase `Object` en Java
+    - **`<xsd:duration>`**: Períodos de tiempo como `P1Y4M21DT8H` (1 año, 4 meses, 21 días, 8 horas).
+    - **`<xsd:boolean>`**: `true` o `false`.
+    - **`<xsd:anyURI>`**: Direcciones URI.
+    - **`<xsd:anyType>`**: Tipo genérico similar a la clase `Object` en Java
 
 
 ### 3.2. Derivaciones de Tipos Simples *`<xsd:simpleType>`*
@@ -298,9 +324,10 @@ Utilizando el elemento `<xsd:simpleType>` con el atributo name para establecer u
 
 Dentro del elemento `<xsd:simpleType>`, se pueden establecer restricciones utilizando otros elementos como los siguientes:
 
-`<xsd:restriction>`: Para poner rangos, patrones, enumerar posibles valores etc.
-`<xsd:list>`: Para definir un tipo de lista.
-`<xsd:union>`: Para unir varios tipos definidos anteriormente en uno.
+- **`<xsd:restriction>`**: Para poner rangos, patrones, enumerar posibles valores etc.
+- **`<xsd:list>`**: Para definir un tipo de lista.
+- **`<xsd:union>`**: Para unir varios tipos definidos anteriormente en uno.
+
 
 #### 3.2.1. Element *`<xsd:restriction>`*
 Estructura básica: 
@@ -333,6 +360,7 @@ Ejemplo: Crear un tipo que permita valores decimales con hasta 2 cifras decimale
 <!-- XML -->
 <precio>123.45</precio>
 ```
+
 
 #### 3.2.2. Element *`<xsd:extension>`*
 - Amplia un tipo que ya existe agregando atributos o elementos adicionales
@@ -381,7 +409,6 @@ Explicación:
 - Dentro de `<xsd:complexContent>`, se usa `<xsd:extension base="direccionBase">` para extender direccionBase, es decir, que `<direccionType>` hereda los elementos calle y ciudad de direccionBase.
 
 
-
 #### 3.2.3. Element *`<xsd:list>`*
 - Son listas de valores del mismo tipo.
 - Representan conjuntos de datos separados por espacios.
@@ -400,31 +427,255 @@ Explicación:
   <colores>rojo azul verde amarillo</colores>
     ```
 
-#### 3.2.4. Element *`<xsd:restriction>`*
+
+#### 3.2.4. Element *`<xsd:union>`*
+- Combina varios tipos en uno solo, aceptando cualquier valor permitido por los tipos incluidos.
+- Útiles cuando se necesitan valores flexibles que puedan pertenecer a siferentes categorías.
+    ``` xml
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <!-- Elemento que utiliza la unión de tipos simples -->
+        <xsd:element name="contacto" type="codigoPostalONumeroType"/>
+
+        <!-- Unión de tipos simples: código postal o número de teléfono -->
+        <xsd:simpleType name="codigoPostalONumeroType">
+            <xsd:union memberTypes="codigoPostalType telefonoType"/>
+        </xsd:simpleType>
+
+        <!-- Definición de tipo simple para el código postal -->
+        <xsd:simpleType name="codigoPostalType">
+            <xsd:restriction base="xsd:string">
+                <xsd:pattern value="[0-9]{5}"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+
+        <!-- Definición de tipo simple para el número de teléfono -->
+        <xsd:simpleType name="telefonoType">
+            <xsd:restriction base="xsd:string">
+                <xsd:pattern value="[0-9]{3}-[0-9]{3}-[0-9]{4}"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+
+    </xsd:schema>
+
+    <!-- XML -->
+    <contacto>12345</contacto>  <!-- Ambos son correctos, pero solo existe 1 elemento raíz: contacto --> 
+    <contacto>123-456-7890</contacto>
+    ```
 
 
-#### 3.2.5. Element *`<xsd:restriction>`*
+### 3.3. Tipos de Restricciones en XSD
+Se utilizan para definir reglas sobre los **datos que hay dentro de los elementos y atributos**
 
+#### 3.3.1. Restricciones Numéricas
+Nnúmeros enteros o decimales:
+- **`<xsd:minInclusive>`**: Valor mínimo (incluido)
+- **`<xsd:maxInclusive>`**: Valor máximo (incluido)
+- **`<xsd:minExclusive>`**: Valor mínimo (excluido)
+- **`<xsd:maxExclusive>`**: Valor máximo (excluido)
 
-#### 3.2.6. Element *`<xsd:restriction>`*
-
-
-
-
-
-
+Ejemplo: Tipo para edades entre 16 y 65 años.
 ``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="edad" type="edadType"/>
+    
+    <xsd:simpleType name="edadType">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="16"/>
+            <xsd:maxInclusive value="65"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+  
+</xsd:schema>
 
-```
+<!-- XML -->
+<edad>20</edad>
+``` 
 
 
+#### 3.3.2. Restricciones Longitud de Cadenas
+Cadenas o listas:
+- **`<xsd:length>`**: Longitud exacta.
+- **`<xsd:minLength>`**: Longitud mínima.
+- **`<xsd:maxLength>`**: Longitud máxima.
 
+Ejemplo: Nombre de longitud entre 3 y 15 caracteres.
 ``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="nombre" type="nombreType"/>
+    
+    <xsd:simpleType name="nombreType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="3"/>
+            <xsd:maxLength value="15"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+  
+</xsd:schema>
 
-```
+<!-- XML -->
+<nombre>José Enrique</nombre>
+``` 
 
 
-
+#### 3.3.3. Restricciones de Valores Específicos
+Valores predefinidos:
+- **`<xsd:enumeration>`**: Valores específicos permitidos.
+Ejemplo: Género con valores "Hombre" o "Mujer".
 ``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="genero" type="generoType"/>
+  
+    <xsd:simpleType name="generoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Hombre"/>
+            <xsd:enumeration value="Mujer"/>
+        </xsd:restriction>
+  </xsd:simpleType>
+  
+</xsd:schema>
 
-```
+<!-- XML -->
+<genero>Hombre</genero>
+``` 
+
+
+#### 3.3.4. Restricciones de Patrones
+Cadenas con un patrón definido con expresiones regulares:
+- **`<xsd:pattern>`**: patrón a seguir.
+
+Ejemplo: Un patrón para el email.
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="email" type="emailType"/>
+  
+    <xsd:simpleType name="emailType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.+-]+\.[a-zA-Z]{2,10}"/>
+        </xsd:restriction>
+  </xsd:simpleType>
+  
+</xsd:schema>
+
+<!-- XML -->
+<email>an-Ge.le+s@g_ma+il.com</email>
+``` 
+
+
+#### 3.3.5. Restricciones para Listas
+Listas de valores restringidos:
+- **`<xsd:restriction>`**: con patrones específicos.
+
+Ejemplo: Lista de colores separados por espacios
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="colores" type="coloresType"/>
+  
+    <xsd:simpleType name="coloresType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="(rojo|verde|azul)( (rojo|verde|azul))*"/>
+        </xsd:restriction>
+  </xsd:simpleType>
+  
+</xsd:schema>
+
+<!-- XML -->
+<colores>rojo verde rojo rojo verde azul</colores>
+``` 
+
+
+#### 3.3.6. Restricciones de Espacios en Blanco
+Controla cómo se manejan los espacios en blanco:
+- **`<xsd:whiteSpace>`**:
+  - `preserve`: Mantiene los espacios tal como están.
+  - `replace`: Sustituye secuencias de espacios por un solo espacio.
+  - `collapse`: Elimina espacios al inicio y al final, y reduce múltiples espacios intermedios a uno.
+
+Ejemplos:  
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="texto" type="textoType"/>
+
+    <xsd:simpleType name="textoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:whiteSpace value="preserve"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>
+
+<!-- XML -->
+<!-- preserve --> <texto>  Este   es un   ejemplo    de texto  preserve  </texto>
+<!-- replace --> <texto> Este es un ejemplo de texto replace </texto>
+<!-- collapse --> <texto>Este es un ejemplo de texto collapse</texto>
+``` 
+
+
+#### 3.3.7. Restricciones para decimales
+Representa números decimales con restricciones específicas:
+- **`<xsd:totalDigits>`**: Número total de dígitos permitidos (enteros y decimales).
+- **`<xsd:fractionDigits>`**: Número máximo de dígitos permitidos después del punto decimal.
+- **`<xsd:minInclusive>`**: Valor mínimo (incluido).
+- **`<xsd:maxInclusive>`**: Valor máximo (incluido).
+- **`<xsd:minExclusive>`**: Valor mínimo (excluido).
+- **`<xsd:maxExclusive>`**: Valor máximo (excluido).
+
+Ejemplo 1: Precio con un máximo de 6 dígitos en total, 2 decimales, y un rango entre 0.01 y 9999.99.
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="precios" type="preciosType"/> 
+
+    <xsd:complexType name="preciosType">
+        <xsd:sequence>
+            <xsd:element name="precio" type="precioType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="precioType">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:totalDigits value="6"/>
+            <xsd:fractionDigits value="2"/>
+            <xsd:minInclusive value="0.01"/>
+            <xsd:maxInclusive value="9999.99"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>
+
+<!-- XML -->
+<precios>
+    <precio>0.1</precio>
+    <precio>9999.99</precio>
+</precios>
+``` 
+
+Ejemplo 2: 
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+</xsd:schema>
+
+<!-- XML -->
+
+``` 
+
+
+
+
+
+
+## 4 Restricciones de elementos
+### 3.3.5. Restricciones para Listas
+
+- **`<xsd:>`**: .
+
+Ejemplo: 
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+</xsd:schema>
+
+<!-- XML -->
+
+``` 
