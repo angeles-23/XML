@@ -30,6 +30,8 @@ Por defecto maxOccurs y minOccurs, aparece una sola vez.
 </peliculas>
 ```
 
+---
+
 ## 2. Tipos de elementos
 - Elemento simple: no permite elementos hijos ni atributos
 - Elemento compuesto: permite elementos hijos y atributos, y a su vez puede tener elementos simples
@@ -287,6 +289,7 @@ Dentro del elemento `<xsd:complexType>`, se pueden agregar elementos como los si
     </direccion>
 ```
 
+---
 
 ## 3. Restricciones de elementos
 ### 3.1. Tipos de datos
@@ -650,32 +653,305 @@ Ejemplo 1: Precio con un máximo de 6 dígitos en total, 2 decimales, y un rango
 </precios>
 ``` 
 
-Ejemplo 2: 
+Ejemplo 2: Temperatura con 1 decimal permitida entre -50.0 y 50.0.
 ``` xml
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+    <xsd:element name="temperatura" type="temperaturaType"/>
+    
+    <xsd:simpleType name="temperaturaType">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:totalDigits value="4"/>
+            <xsd:fractionDigits value="1"/>
+            <xsd:minInclusive value="-50.0"/>
+            <xsd:maxInclusive value="50.0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+  
+</xsd:schema>
+
+<!-- XML -->
+<temperatura>15.3</temperatura>
+``` 
+
+---
+
+## 4. Atributos Schema
+Los atributos especifican:
+    - Nombre del atributo
+    - Tipo de daro que debe contener
+    - Requisitos (required, optional o default="valor_por_defecto")
+
+Se declaran dentro de un `xsd:complexType` usando `xsd:attribute`. Sintaxis:  
+``` xml
+<xsd:attribute name="nombre_atributo" type="tipo_dato" use="opcionalidad"/>
+```
+
+
+### 4.1. Tipos de atributos
+#### 4.1.1. Atributos obligatorios
+Debe aparecer en el elemento.
+Ejemplo: un elemento producto con un atributo codigo obligatorio de tipo cadena
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+    <xsd:element name="producto" type="productoType"/>
+    
+    <xsd:complexType name="productoType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="codigo" type="xsd:string" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
 
 </xsd:schema>
 
 <!-- XML -->
-
-``` 
-
-
+<producto codigo="A123">Teclado</producto>
+```
 
 
+#### 4.1.2. Atributos opcionales
+Puede aparecer o no.
+Ejemplo: un elemento producto con un atributo codigo obligatorio de tipo cadena
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+    <xsd:element name="producto" type="productoType"/>
+    
+    <xsd:complexType name="productoType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="codigo" type="xsd:string" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:schema>
+
+<!-- XML -->
+<producto>Monitor LG</producto>
+```
 
 
-## 4 Restricciones de elementos
-### 3.3.5. Restricciones para Listas
-
-- **`<xsd:>`**: .
-
+#### 4.1.3. Atributos con valor predeterminado
+El valor predeterminado se usará si no está en el XML.
 Ejemplo: 
 ``` xml
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+    <xsd:element name="producto" type="productoType"/>
+    
+    <xsd:complexType name="productoType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="codigo" type="xsd:string" default="Desconocido"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
 
 </xsd:schema>
 
 <!-- XML -->
+<producto codigo=''>Móvil</producto> <!--   ->   <producto codigo="Desconocido">Móvil</producto>
+-->
+```
 
-``` 
+
+### 4.2. Como se forman los atributos en el XSD
+#### 4.2.1. Elemento SIN elementos hijos
+1. Elemento **EMPTY**
+   ``` xml
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+        <xsd:element name="producto" type="productoType"/>
+        <!-- Al no tener elementos hijos no hace falta poner complexType y sequence -->
+        <xsd:complexType name="productoType">
+            <xsd:attribute name="codigo" type="xsd:string" use="required"/>
+            <xsd:attribute name="descripcion" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    
+    </xsd:schema>
+
+    <!-- XML -->
+   <proucto codigo="A123" descripcion="Teclado ergonómico"/>
+   ```
+
+
+2. Elemento **NO EMPTY**
+   Sin restricciones
+   ```xml
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+        <xsd:element name="producto" type="productoType"/>
+        
+        <xsd:complexType name="productoType">
+            
+            <xsd:simpleContent>     <!-- Contiene información(texto) -->
+                <xsd:extension base="xsd:string">    <!-- La información es una cadena -->
+                
+                    <!-- Posibles restricciones del elemento
+                    <xsd:restriction base=xsd:string>
+                    ...
+                    </xsd:restriction> -->
+                    
+                    <!-- extension > ( restriction | attribute ) -->
+                    <xsd:attribute name="codigo" type="xsd:string" use="required"/>
+                    <xsd:attribute name="descripcion" type="xsd:string" use="optional"/>
+
+                </xsd:extension> 
+            </xsd:simpleContent>
+            
+        </xsd:complexType>
+    
+    </xsd:schema>
+
+   <!-- XML -->
+    <producto codigo="Z954" descripcion="Teclado gamer">Corsair K55</producto>
+   ```
+   
+    Con restricciones en el elemento y en el atributo.
+    Ejemplo: El elemento tipo moneda no puede ser menor de 0, el atributo moneda es una lista, puede ser € o $.       
+    ```xml
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+        <xsd:element name="precio">
+            <xsd:complexType>
+                <xsd:simpleContent>
+                    <xsd:extension base="precioType">
+                        <xsd:attribute name="moneda" type="monedaType" use="required"/>
+                    </xsd:extension>
+                </xsd:simpleContent>
+            </xsd:complexType>
+        </xsd:element>
+        
+        <xsd:simpleType name="monedaType">
+            <xsd:restriction base="xsd:string">
+                <xsd:enumeration value="€"/>
+                <xsd:enumeration value="$"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+        
+        <xsd:simpleType name="precioType">
+            <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="6"/>
+                <xsd:fractionDigits value="2"/>
+                <xsd:minInclusive value="0"/>
+                <xsd:maxInclusive value = "100000"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+    
+    </xsd:schema>
+
+    <!-- XML -->
+    <precioType moneda="$">150.50</precioType>
+   ``` 
+
+
+#### 4.2.1. Elemento CON elementos hijos
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:element name="producto">
+    <xsd:complexType>
+    
+    <xsd:sequence>
+        <xsd:element name="nombre" type="xsd:string"/>
+        <xsd:element name="precio" type="xsd:decimal"/>
+    </xsd:sequence>
+    
+    <xsd:attribute name="codigo" type="xsd:string" use="required"/>
+    <xsd:attribute name="descripcion" type="xsd:string" use="optional"/>
+    
+    </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>
+
+<!-- XML -->
+<producto codigo="A123" descripcion="Teclado ergonómico">
+    <nombre>Corsair K55</nombre>
+    <precio>19.99</precio>
+</producto>
+```
+
+---
+
+## 5. Restricciones en atributos de elementos XSD
+Pasamos de esto: `<xsd:attribute name="nombre_atributo" type="xsd:tipo_atributo" use="required"/>`
+A esto (quitando type y use): `<xsd:attribute name="nombre_atributo"></xsd:attribute>`
+Sintaxis:
+```xml
+<xsd:attribute name="nombre_atributo">
+    <xsd:simpleType>
+        <xsd:restriction base="tipo">
+            <!-- Restricción -->
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:attribute>
+```
+
+Ejemplo: Elemento producto EMPTY con 3 atributos (codigo, precio y descripcion)
+- codigo: cadena de texto con formato LNNN (letra y numero)
+- precio: máximo 2 decimales y no puede ser negativo
+- descripcion: cadena de texto con 3 caracteres como mínimo y 50 como máximo
+``` xml
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <xsd:element name="producto">
+    <xsd:complexType>
+      
+      <xsd:attribute name="codigo">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[A-Z][0-9]{3}"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      
+      <xsd:attribute name="precio">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:decimal">
+            <xsd:totalDigits value="10"/>
+            <xsd:fractionDigits value="2"/>
+            <xsd:minInclusive value="0.01"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      
+      <xsd:attribute name="descripcion">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="3"/>
+            <xsd:maxLength value="50"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      
+    </xsd:complexType>
+  </xsd:element>
+  
+</xsd:schema>
+
+<!-- XML -->
+<producto codigo="B456" precio="199.99" descripcion="Teclado mecánico retroiluminado"/>
+```
+
+### 5.1. Restricción con patrón (validación de formato)
+### 5.2. 
+### 5.3. 
+### 5.4. 
+
+
+
+
+
+---
+
+## 6 Claves y Claves Foráneas
+### 6.1. 
+
+
+
+
