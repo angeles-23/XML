@@ -899,38 +899,38 @@ Ejemplo: Elemento producto EMPTY con 3 atributos (codigo, precio y descripcion)
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   
-  <xsd:element name="producto">
-    <xsd:complexType>
-      
-      <xsd:attribute name="codigo">
-        <xsd:simpleType>
-          <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[A-Z][0-9]{3}"/>
-          </xsd:restriction>
-        </xsd:simpleType>
-      </xsd:attribute>
-      
-      <xsd:attribute name="precio">
-        <xsd:simpleType>
-          <xsd:restriction base="xsd:decimal">
-            <xsd:totalDigits value="10"/>
-            <xsd:fractionDigits value="2"/>
-            <xsd:minInclusive value="0.01"/>
-          </xsd:restriction>
-        </xsd:simpleType>
-      </xsd:attribute>
-      
-      <xsd:attribute name="descripcion">
-        <xsd:simpleType>
-          <xsd:restriction base="xsd:string">
-            <xsd:minLength value="3"/>
-            <xsd:maxLength value="50"/>
-          </xsd:restriction>
-        </xsd:simpleType>
-      </xsd:attribute>
-      
-    </xsd:complexType>
-  </xsd:element>
+    <xsd:element name="producto">
+        <xsd:complexType>
+        
+        <xsd:attribute name="codigo">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="[A-Z][0-9]{3}"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        
+        <xsd:attribute name="precio">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                    <xsd:totalDigits value="10"/>
+                    <xsd:fractionDigits value="2"/>
+                    <xsd:minInclusive value="0.01"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        
+        <xsd:attribute name="descripcion">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:minLength value="3"/>
+                    <xsd:maxLength value="50"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        
+        </xsd:complexType>
+    </xsd:element>
   
 </xsd:schema>
 
@@ -939,19 +939,312 @@ Ejemplo: Elemento producto EMPTY con 3 atributos (codigo, precio y descripcion)
 ```
 
 ### 5.1. Restricción con patrón (validación de formato)
-### 5.2. 
-### 5.3. 
-### 5.4. 
+Ejemplo: El atributo *codigo* debe seguir el formato de 3L seguidads de 3N
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="producto" type="productoType"/>
+    
+    <xsd:complexType name="productoType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="codigo" type="codigoType" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="codigoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[A-Z]{3}[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>
+
+<!-- XML -->
+<producto codigo="ABC123">Tablet Samung A8</producto>
+```
+
+
+### 5.2. Restricción con valores enumerados
+Ejemplo: El atributo *color* solo puede ser rojo, azul o verde.
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+    <xsd:element name="producto" type="productoType"/>
+    
+    <xsd:complexType name="productoType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="codigo" type="xsd:string" use="required"/>
+                <xsd:attribute name="color" type="colorType" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="colorType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="rojo"/>
+            <xsd:enumeration value="azul"/>
+            <xsd:enumeration value="verde"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+  
+</xsd:schema>
+
+<!-- XML -->
+<producto codigo="A123" color="rojo">Teclado</producto>
+```
 
 
 
+### 5.3. Restricción de longitud en atributos
+Ejemplo: El atributo *codigo* tienen una longitud de 5 caracteres  
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+    <xsd:element name="producto" type="productoType"/>
+    
+    <xsd:complexType name="productoType">
+        <xsd:sequence>
+            <xsd:element name="nombre" type="xsd:string"/>
+            <xsd:element name="descripcion" type="xsd:string"/>
+        </xsd:sequence>
+        <xsd:attribute name="codigo" type="codigoType" use="optional"/>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="codigoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="5"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+  
+</xsd:schema>
 
+<!-- XML -->
+<producto codigo="ABC12">
+    <nombre>Corsair K55</nombre>
+    <descripcion>Teclado de membrana compatible con software iCUE®️</descripcion>
+</producto>
+```
+
+
+### 5.4. Restriccción de valores numéricos en atributos
+Ejemplo: El atributo *precio* puede ser hasta 5 digitos, 2 decimales y va desde 0.01 - 9999.99
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+    <xsd:element name="producto" type="productoType"/>
+    
+    <xsd:complexType name="productoType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="precio" type="precioType" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="precioType">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:totalDigits value="5"/>
+            <xsd:fractionDigits value="2"/>
+            <xsd:minInclusive value="0.01"/>
+            <xsd:maxInclusive value="999.99"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+  
+</xsd:schema>
+
+<!-- XML -->
+<producto precio="19.99">Teclado</producto>
+```
 
 ---
 
 ## 6 Claves y Claves Foráneas
-### 6.1. 
+Las claves **`xsd:key`** y **`xsd:keyref`** en XSD sirven para garantizar unicidad e integridad referencial en documentos XML, similar a claves primarias y foráneas en bases de datos.
+
+### 6.1. Claves(`key`)
+**`xsd:key`** (Clave primaria): Define un valor único dentro de un conjunto de elementos.
+
+Sintaxis: 
+``` xml
+<xsd:key name="nombreClave">
+    <xsd:selector xpath="rutaElementos"/>
+    <xsd:field xpath="rutaCampo"/>
+</xsd:key>
+```
+
+Explicacion:
+- `name="nombreClave"`: nombre de la clave e identificador único. Nombre más común: atributoID.
+- `selector: xpath`: indica la ruta de elementos afectados. Empezando desde la raíz y al acabar se le añade un `/`.
+- `field: xpath`: señala el valor que no debe repetirse. Al incio va un @ y le sigue el nombre del atributo.
+Todo esto va dentro del elemento de la raíz.
+
+Ejemplo: 
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="datos">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="productos" type="productosType"/>
+            </xsd:sequence>
+        </xsd:complexType>
+        
+        <!-- Claves -->
+        <xsd:key name="codigoID">
+            <xsd:selector xpath="productos/producto"/>
+            <xsd:field xpath="@codigo"/>
+        </xsd:key>
+        
+    </xsd:element>
+    
+    <xsd:complexType name="productosType">
+        <xsd:sequence>
+            <xsd:element name="producto" type="productoType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="productoType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="codigo" type="codigoType" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="codigoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="P[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>
+
+<!-- XML -->
+<datos>
+    <productos>
+        <producto codigo="P001">Teclado</producto>
+        <producto codigo="P002">Ratón</producto>
+        <producto codigo="P003">Monitor</producto>
+    </productos>
+</datos>
+```
 
 
+### 6.1. Claves Foráneas(`keyref`)
+**`xsd:keyref`** (Clave foránea): Hace referencia a una clave definida con `xsd:key`, asegurando que un valor existe antes de ser referenciado.
+
+Sintaxis:
+``` xml
+<xsd:keyref name="nombreClaveForanea" refer="nombreClave">
+    <xsd:selector xpath="rutaElementos"/>
+    <xsd:field xpath="rutaCampo"/>
+</xsd:keyref>
+```
+
+Explicacion:
+- `name="nombreClaveForanea"`: nombre de la clave foránea e identificador único. Nombre más común: atributoIDRefer.
+- `refer="nombreClave"`: hace referencia a un `xsd:key` previamente definido. El nombreClave es el nombe de una key.
+- `selector: xpath`: indica la ruta de elementos afectados. Empezando desde la raíz y al acabar se le añade un solo **\\**.
+- `field: xpath`: señala el valor que no debe repetirse. Al incio va un **@** y le sigue el nombre del atributo **key** al que hace referencia.
+Todo esto va dentro del elemento de la raíz.
+
+Ejemplo: 
+``` xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="datos">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="productos" type="productosType"/>
+                <xsd:element name="pedidos" type="pedidosType"/>
+            </xsd:sequence>
+        </xsd:complexType>
+        
+        <!-- Claves -->
+        <xsd:key name="codigoID">
+            <xsd:selector xpath="productos/producto"/>
+            <xsd:field xpath="@codigo"/>
+        </xsd:key>
+        
+        <xsd:keyref name="codigoProductoIDRef" refer="codigoID">
+            <xsd:selector xpath="pedidos/pedido"/>
+            <xsd:field xpath="@codigoProducto"/>
+        </xsd:keyref>
+        
+    </xsd:element>
+    
+    <xsd:complexType name="productosType">
+        <xsd:sequence>
+            <xsd:element name="producto" type="productoType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="productoType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="codigo" type="codigoType" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="codigoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="P[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:complexType name="pedidosType">
+        <xsd:sequence>
+            <xsd:element name="pedido" type="pedidoType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="pedidoType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="codigoProducto" type="codigoProductoType" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="codigoProductoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="P[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>
 
 
+<!-- XML -->
+<datos>
+    <productos>
+        <producto codigo="P001">Teclado</producto>
+        <producto codigo="P002">Ratón</producto>
+        <producto codigo="P003">Monitor</producto>
+    </productos>
+
+    <pedidos>
+        <pedido codigoProducto="P001"/>
+        <pedido codigoProducto="P002"/>
+        <!-- <pedido codigoProducto="P004"/>    Error: No existe este código  -->
+    </pedidos>
+</datos>
+```
+
+
+--- 
+
+
+# MANUAL DTD
+
+## 1. 
+## 2. 
+## 3. 
+## 4. 
+
+
+# MANUAL XML
