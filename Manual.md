@@ -765,7 +765,7 @@ Ejemplo:
     <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   
         <xsd:element name="producto" type="productoType"/>
-        <!-- Al no tener elementos hijos no hace falta poner complexType y sequence -->
+        <!-- Al no tener elementos hijos no hace falta poner sequence -->
         <xsd:complexType name="productoType">
             <xsd:attribute name="codigo" type="xsd:string" use="required"/>
             <xsd:attribute name="descripcion" type="xsd:string" use="optional"/>
@@ -1241,10 +1241,85 @@ Ejemplo:
 
 # MANUAL DTD
 
-## 1. 
-## 2. 
-## 3. 
-## 4. 
+## 1. DECLARACIÓN
+``` xml
+<!DOCTYPE raiz [
+<!ELEMENT raiz (elemento1, elemento2)>
+<!ELEMENT elemento1 (subelemento+)>
+<!ELEMENT elemento2 EMPTY>
+<!ATTLIST nombre_elemento
+    atributo1 ID #REQUIRED
+    atributo2 CDATA #IMLIED
+>
+]>
+```
+## 2. Tipos de elementos
+### 2.1. Secuenciales
+Conienen elementos hijos.
+```xml
+<!ELEMENT elemento (subelemento1, subelemento2, subelemento3)>
+<!ELEMENT receta (titulo, ingredientes, pasos)>
+```
+
+### 2.2. Enumeración o alternativos
+Conienen **sólo uno** de los elementos hijos.
+```xml
+<!ELEMENT elemento (subelemento1 | subelemento2 | subelemento3)>
+<!ELEMENT producto (telefono | tablet | ordenador)>
+```
+
+### 2.3. Elemento Vacío
+Son elementos que no tiene contenido interno. Se usa 'EMPTY'.
+```xml
+<!ELEMENT elemento EMPTY>
+<!ELEMENT plato EMPTY>
+```
+
+### 2.4. Elemento que contiene Datos
+Son elementos que contienen cualquier texto sin formato.
+```xml
+<!ELEMENT elemento (#PCDATA)>
+<!ELEMENT titulo (#PCDATA)>
+```
+### 2.5. Elementos con factor de repetición
+Son elementos que contienen cualquier texto sin formato.
+- Opcional (**?**): Aparece 0 o 1 vez
+- Obligatorio (**+**): Aparece 1 o más veces.
+- Cero o muchas veces (***\****): Aparece 0 o muchas veces. Es opcional y puede repetirse
+- Obligatorio ( ): Aparece solo 1 vez
 
 
-# MANUAL XML
+## 3. Tipos de Atributos
+```xml
+<!ATTLIST elemento                       <!-- <!A producto           por defecto será ⬇️    -->                         
+    atributo tipo valorPredeterminado  <!-- categoria (electronicos|ropa|libros) 'electronicos'> -->
+>
+```
+- **atributo**: nombre_atributo
+- **tipo**: CDATA, enumeración o ID/IDREF
+    - **CDATA**: texto
+    - **enumeracion**: se colocan las enumeraciones entre '()' separados por '|'
+    - **ID**: identificador único, debe empezar con una letra
+    - **IDREF**: identificador que hace referencia a un ID existente
+- **valorPredeterminado**: #REQUIRED, #IMPLIED, #FIXED
+    - **REQUIRED**: obligatorio
+    - **IMPLIED**: opcional
+    - **FIXED**: valor fijo declarado en el DTD
+Valor por defecto del atributo: es opcional en caso de no poner nada
+
+Ejemplo:
+```xml
+<!ELEMENT libro (titulo?, isbn, año, (nombre|apellido)+ )> <!-- una u otra se puede repetir más de una vez y da iugal el orden-->
+<!ELEMENT titulo (#PCDATA)>
+<!ELEMENT isbn (#PCDATA)>
+<!ELEMENT año (#PCDATA)>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE libro SYSTEM "libro.dtd">
+<libro>
+    <isbn>154984P</isbn>
+    <año>2025</año>
+    <apellido>Pérez Durán</apellido>
+    <nombre>Ana María</nombre>
+</libro>
+```
