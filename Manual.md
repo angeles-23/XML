@@ -544,7 +544,7 @@ Ejemplo: Género con valores "Hombre" o "Mujer".
 
 #### 3.3.4. Restricciones de Patrones
 Cadenas con un patrón definido con expresiones regulares:
-- **`<xsd:pattern>`**: patrón a seguir.
+- **`<xsd:pattern>`**: patrón a seguir. En caso de usar **{** **,** **}**, significa que va de un valor hasta otro, incluyendo ambos valores. 
 
 Ejemplo: Un patrón para el email.
 ``` xml
@@ -1147,8 +1147,8 @@ Sintaxis:
 Explicacion:
 - `name="nombreClaveForanea"`: nombre de la clave foránea e identificador único. Nombre más común: atributoIDRefer.
 - `refer="nombreClave"`: hace referencia a un `xsd:key` previamente definido. El nombreClave es el nombe de una key.
-- `selector: xpath`: indica la ruta de elementos afectados. Empezando desde la raíz y al acabar se le añade un solo **\\**.
-- `field: xpath`: señala el valor que no debe repetirse. Al incio va un **@** y le sigue el nombre del atributo **key** al que hace referencia.
+- `selector: xpath`: indica la ruta. Empezando desde la raíz y se separan los elementos con **/**.
+- `field: xpath`: señala el valor ref que no debe repetirse. Al incio va un **@** y le sigue el nombre del atributo ajeno **keyref**.
 Todo esto va dentro del elemento de la raíz.
 
 Ejemplo: 
@@ -1204,17 +1204,11 @@ Ejemplo:
 
     <xsd:complexType name="pedidoType">
         <xsd:simpleContent>
-            <xsd:extension base="xsd:string">
-                <xsd:attribute name="codigoProducto" type="codigoProductoType" use="required"/>
+            <xsd:extension base="xsd:string">            <!-- ⬇️ llamo al codigo que ya he definido, no hace falta crear otro type -->
+                <xsd:attribute name="codigoProducto" type="codigoType" use="required"/>
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>
-
-    <xsd:simpleType name="codigoProductoType">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="P[0-9]{3}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
 
 </xsd:schema>
 
@@ -1276,7 +1270,7 @@ Son elementos que no tiene contenido interno. Se usa 'EMPTY'.
 ```
 
 ### 2.4. Elemento que contiene Datos
-Son elementos que contienen cualquier texto sin formato.
+Son elementos que contienen cualquier texto sin formato, o no lo contienen pero están presentes
 ```xml
 <!ELEMENT elemento (#PCDATA)>
 <!ELEMENT titulo (#PCDATA)>
@@ -1291,25 +1285,26 @@ Son elementos que contienen cualquier texto sin formato.
 
 ## 3. Tipos de Atributos
 ```xml
-<!ATTLIST elemento                       <!-- <!A producto           por defecto será ⬇️    -->                         
+<!ATTLIST elemento                       <!-- <!A producto           por defecto será ⬇️, solo en los atributos -->                         
     atributo tipo valorPredeterminado  <!-- categoria (electronicos|ropa|libros) 'electronicos'> -->
 >
 ```
 - **atributo**: nombre_atributo
 - **tipo**: CDATA, enumeración o ID/IDREF
     - **CDATA**: texto
-    - **enumeracion**: se colocan las enumeraciones entre '()' separados por '|'
+    - **enumeracion**: se colocan las enumeraciones entre '( )' separados por '|'
     - **ID**: identificador único, debe empezar con una letra
     - **IDREF**: identificador que hace referencia a un ID existente
 - **valorPredeterminado**: #REQUIRED, #IMPLIED, #FIXED
     - **REQUIRED**: obligatorio
     - **IMPLIED**: opcional
-    - **FIXED**: valor fijo declarado en el DTD
+    - **FIXED**: valor fijo declarado en DTD ->  '<'!ATTLIST ejemplo color CDATA #FIXED 'verde' '>'
+
 Valor por defecto del atributo: es opcional en caso de no poner nada
 
 Ejemplo:
 ```xml
-<!ELEMENT libro (titulo?, isbn, año, (nombre|apellido)+ )> <!-- una u otra se puede repetir más de una vez y da iugal el orden-->
+<!ELEMENT libro (titulo?, isbn, año, (nombre|apellido)+)>  <!-- una u otra se puede repetir más de una vez y da igual el orden-->
 <!ELEMENT titulo (#PCDATA)>
 <!ELEMENT isbn (#PCDATA)>
 <!ELEMENT año (#PCDATA)>
