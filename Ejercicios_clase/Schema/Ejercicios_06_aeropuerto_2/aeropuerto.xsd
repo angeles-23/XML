@@ -1,0 +1,124 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!-- ELEMENTO RAÍZ-->
+  <xsd:element name="aeropuerto">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="avion" type="avionType" maxOccurs="unbounded"/>
+        <xsd:element name="puertas_embarque" type="puertas_embarqueType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- avionType-->
+  <xsd:complexType name="avionType">
+    <xsd:sequence>
+      <xsd:element name="modelo" type="xsd:string"/>
+      <xsd:element name="compania" type="companiaType"/>
+      <xsd:element name="capacidad" type="xsd:integer"/>
+      <xsd:element name="crew" type="crewType"/>
+      <xsd:element name="pasajeros" type="pasajerosType"/>
+    </xsd:sequence>
+    <xsd:attribute name="id" type="avionIdType" use="required"/>
+    <!-- <xsd:assert test="count(pasajeros/pasajero) &lt;= capacidad"/> -->
+  </xsd:complexType>
+  <!-- restricciones -->
+  <xsd:simpleType name="avionIdType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[A-Z][0-9]{3}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+<xsd:simpleType name="companiaType">
+  <xsd:restriction base="xsd:string">
+    <xsd:pattern value="[A-Za-z]+"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<!-- crewType-->
+  <xsd:complexType name="crewType">
+    <xsd:sequence>
+      <xsd:element name="piloto" type="xsd:string"/>
+      <xsd:element name="copiloto" type="xsd:string"/>
+      <xsd:element name="flight_attendance" type="flight_attendanceType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="flight_attendanceType">
+    <xsd:sequence>
+      <xsd:element name="nombre" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <!-- pasajerosType -->
+  <xsd:complexType name="pasajerosType">
+    <xsd:sequence>
+      <xsd:element name="pasajero" type="pasajeroType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="pasajeroType">
+    <xsd:sequence>
+      <xsd:element name="nombre" type="nombreType"/>
+      <xsd:element name="nacionalidad" type="xsd:string"/>
+      <xsd:element name="maletas" type="maletasType"/>
+    </xsd:sequence>
+    <xsd:attribute name="id" type="pasajeroIdType"/>
+  </xsd:complexType>
+
+  <xsd:simpleType name="pasajeroIdType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[A-Z][0-9]{3}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="nombreType">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="3"/>
+      <xsd:maxLength value="50"/>
+      <xsd:pattern value="[A-Za-z]+"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <!-- maletasType -->
+  <xsd:complexType name="maletasType">
+    <xsd:sequence>
+      <xsd:element name="maleta" type="maletaType" maxOccurs="2"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="maletaType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="peso" type="pesoType"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  
+  <xsd:simpleType name="pesoType">
+    <xsd:restriction base="xsd:decimal">
+      <xsd:totalDigits value="3"/>
+      <xsd:fractionDigits value="1"/>
+      <xsd:minInclusive value="5.0"/>
+      <xsd:maxInclusive value="25.0"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+
+  <!-- puertas_embarqueType -->
+  <xsd:complexType name="puertas_embarqueType">
+    <xsd:sequence>
+      <xsd:element name="puerta" type="puertaType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="puertaType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="id" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+</xsd:schema>

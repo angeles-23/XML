@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE listaclientes [
+      <!ELEMENT listaclientes (cliente+)>
+      <!ELEMENT cliente (nombre, apellidos, cif, diasentrega?)>
+      <!ELEMENT nombre (#PCDATA)>
+
+      <!ELEMENT cif (#PCDATA)>
+      <!ELEMENT diasentrega (#PCDATA)>
+      <!ELEMENT apellidos (apellido1, apellido2)>
+
+]>
+
+
+
+<listaclientes>
+  <cliente>
+    <nombre>javier</nombre>  
+    <apellidos>
+      <apellido1>ibarra</apellido1>    
+      <apellido2>muñoz</apellido2>
+    </apellidos>
+    <cif>1122334564</cif>    
+    
+  </cliente>
+</listaclientes>

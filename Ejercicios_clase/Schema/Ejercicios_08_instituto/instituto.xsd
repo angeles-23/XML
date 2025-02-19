@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <xsd:element name="instituto">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="cursos" type="cursosType"/>
+        <xsd:element name="asignaturas" type="asignaturasType"/>
+        <xsd:element name="departamentos" type="departamentosType"/>
+        <xsd:element name="alumnos" type="alumnosType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  
+    <xsd:key name="alumnoID">
+      <xsd:selector xpath="cursos/secundaria/ano/letra"/>
+      <xsd:field xpath="@id"/>
+    </xsd:key>
+    
+    <xsd:key name="asignaturaID">
+      <xsd:selector xpath="asignaturas/asignatura"/>
+      <xsd:field xpath="@id"/>
+    </xsd:key>
+    
+    <xsd:keyref name="impartenAsignaturaIDRef" refer="alumnoID">
+      <xsd:selector xpath="cursos/secundaria/ano"/>
+      <xsd:field xpath="@imparten"/>
+    </xsd:keyref>
+    
+  </xsd:element>
+  
+  
+  <xsd:complexType name="cursosType">
+    <xsd:sequence>
+      <xsd:element name="secundaria" type="secundariaType" maxOccurs="1"/>
+      <xsd:element name="formacion_profesional" type="formacion_profesionalType" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="secundariaType">
+    <xsd:sequence>
+      <xsd:element name="ano" type="anoType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="anoType">
+    <xsd:sequence>
+      <xsd:element name="letra" type="letraType" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="id" type="idAnoType" use="optional"/>
+  </xsd:complexType>
+  
+  <xsd:simpleType name="idAnoType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="1ESO"/>
+      <xsd:enumeration value="2ESO"/>
+      <xsd:enumeration value="3ESO"/>
+      <xsd:enumeration value="4ESO"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="letraType">
+    <!-- Informacion del números de alumnos matriculados, max 30 alumnos/letra-->
+    <xsd:simpleContent>
+      <xsd:extension base="letraType">
+        <xsd:attribute name="id" type="idLetraType" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  
+  <xsd:simpleType name="letraType">
+    <xsd:restriction base="xsd:integer">
+      <xsd:minInclusive value="0"/>
+      <xsd:maxInclusive value="30"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:simpleType name="idLetraType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="A"/>
+      <xsd:enumeration value="B"/>
+      <xsd:enumeration value="C"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+
+  <xsd:complexType name="formacion_profesional">
+    <xsd:sequence>
+      <xsd:element name="GEA" type="gradosType" maxOccurs="2"/>
+      <xsd:element name="DAW" type="gradosType" maxOccurs="2"/>
+      <xsd:element name="ASIR" type="gradosType" maxOccurs="2"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="gradosType">
+    <xsd:sequence>
+      <xsd:element name="curso" type="cursoType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="cursoType">
+    <xsd:simpleContent>
+      <xsd:extension base="numeroType">
+        <xsd:attribute name="id" type="idCursoType" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  
+  <xsd:simpleType name="numeroType">
+    <xsd:restriction base="xsd:integer">
+      <xsd:minInclusive value="0"/>
+      <maxInclusive value="25"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:simpleType name="idCursoType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="GEA1"/>
+      <xsd:enumeration value="GEA2"/>
+      <xsd:enumeration value="DAW1"/>
+      <xsd:enumeration value="DAW2"/>
+      <xsd:enumeration value="ASIR1"/>
+      <xsd:enumeration value="ASIR2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:complexType name="asignaturasType">
+    <xsd:sequence>
+      <xsd:element name="asignatura" type="asignaturaType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="asignaturaType">
+    <xsd:attribute name="id" type="idAsignaturaType" use="required"/>
+    <xsd:attribute name="nombre" type="nombreType" use="required"/>
+    <xsd:attribute name="imparten" type="impartenType" use="required"/>
+  </xsd:complexType>
+  
+  <xsd:simpleType name="idAsignaturaType">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  
+  <xsd:complexType name="departamentosType">
+    <xsd:sequence>
+      <xsd:element name="departamento" type="departamentoType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="departamentoType">
+    <xsd:sequence>
+      <xsd:element name="profesor" type="profesorType" minOccurs="3" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="idDepartamento" type="idDepartamentoType" use="required"/>
+  </xsd:complexType>
+  
+  <xsd:simpleType name="idDepartamentoType">
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:complexType name="profesorType">
+    <xsd:attribute name="id" type="idProfesorType" use="required"/>
+    <xsd:attribute name="nombre" type="nombreType" use="required"/>
+  </xsd:complexType>
+  
+  <xsd:simpleType name="idProfesorType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="P[0-9]{3}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:simpleType name="nombreType">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="3"/>
+      <xsd:maxLength value="50"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:complexType name="alumnosType">
+    <xsd:sequence>
+      <xsd:element name="alumno" type="alumnoType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="alumnoType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="id" type="idAlumnoType" use="required"/>
+        <xsd:attribute name="curso" type="idCursoType" use="required"/>
+        <xsd:attribute name="letra" type="letraType" use="optional"/>
+        <xsd:attribute name="edad" type="edadType" use="required"/>
+        <xsd:attribute name="repetidor" type="repetidorType" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+    
+  <xsd:simpleType name="edadType">
+    <xsd:restriction base="xsd:integer">
+      <xsd:minInclusive value="12"/>
+      <xsd:maxInlcusive value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:simpleType name="repetidorType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="S"/>
+      <xsd:enumeration value="N"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+</xsd:schema>

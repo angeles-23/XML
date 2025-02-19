@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE productos [
+  <!ELEMENT productos (producto+)>
+  <!ELEMENT producto (nombre, precio, categoria)>
+  <!ELEMENT nombre (#PCDATA)>
+  <!ELEMENT precio (#PCDATA)>
+  <!ELEMENT categoria (#PCDATA)>
+]>
+
+<productos>
+  <producto>
+    <nombre>Ordenador Lenovo</nombre>
+    <precio>499,99</precio>
+    <categoria>Electrónica</categoria>
+  </producto>
+  <producto>
+    <nombre>Teclado gaming</nombre>
+    <precio>40,99</precio>
+    <categoria>Electrónica</categoria>
+  </producto>
+</productos>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE productos [
+      <!ELEMENT productos (producto*)>
+      <!ELEMENT producto (raton | teclado | monitor)>
+      <!ELEMENT raton (codigo, descripcion?)>
+      <!ELEMENT teclado (codigo, descipcion?)>
+      <!ELEMENT monitor (codigo, descripcion?)>
+      <!ELEMENT nombre (#PCDATA)>
+      <!ELEMENT descripcion (PCDATA)>
+]>
+
+
+<productos>
+      <producto>
+          <raton></raton>
+          
+      </producto>
+</productos>

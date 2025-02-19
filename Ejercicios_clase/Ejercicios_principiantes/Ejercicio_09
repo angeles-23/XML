@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE operaciones [
+          <!ELEMENT operaciones (operacion+)>
+          <!ELEMENT operacion (venta|compra)+>
+          <!ELEMENT venta (titulosvendidos)>
+          <!ELEMENT titulosvendidos (titulo+, cantidadlibrosvendidos, entregado?, importe)>
+          <!ELEMENT tituloscomprados (titulo+, proveedor, fechacompra)>
+          <!ELEMENT compra (tituloscomprados)>
+          <!ELEMENT fecha_compra (dia, mes, año)>
+          <!ATTLIST importe 
+                  moneda CDATA #REQUIRED
+          >
+          <!ATTLIST  venta
+                  cantidadlibrosvendidos CDATA #REQUIRED
+          >
+          <!ELEMENT importe (#PCDATA)>
+          <!ELEMENT dia (#PCDATA)>
+          <!ELEMENT mes (#PCDATA)>
+          <!ELEMENT año (#PCDATA)>
+          <!ELEMENT importe (#PCDATA)>
+          <!ELEMENT entregado (#PCDATA)>
+          <!ELEMENT proveedor (#PCDATA)>
+          <!ELEMENT catidad (#PCDATA)>
+]>
+
+<operaciones>
+      <operacion>
+            <venta>
+                  <titulosvendidos>
+                          <titulos>Don Quijote</titulos>
+                          <cantidadlibrosvendidos>Rima y leyendas</cantidadlibrosvendidos>
+                          <entregado><entregado/>
+                          <importe moneda="euros">150</importe>
+                  </titulosvendidos>
+            </venta>
+            <venta>
+                  <titulosvendidos>
+                          <titulos>Rinconete y Cotadillo</titulos>
+                          <cantidadlibrosvendidos>Sainetes</cantidadlibrosvendidos>
+                          <entregado><entregado/>
+                          <importe moneda="libras">1260</importe>
+                  </titulosvendidos>
+            </venta>
+      </operacion>
+</operaciones>

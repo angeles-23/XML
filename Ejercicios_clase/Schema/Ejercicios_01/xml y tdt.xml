@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE libro[
+  <!ELEMENT libro (titulo, autor, anio, genero)>
+  <!ELEMENT titulo (#PCDATA)>
+  <!ELEMENT autor (#PCDATA)>
+  <!ELEMENT anio (#PCDATA)>
+  <!ELEMENT genero (#PCDATA)>
+]>
+
+
+<libro>
+  <titulo>El principito</titulo>
+  <autor>Antonio</autor>
+  <anio>1943</anio>
+  <genero>Ficción</genero>
+</libro>

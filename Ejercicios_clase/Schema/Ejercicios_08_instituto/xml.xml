@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<instituto>
+
+  <cursos>
+    <secundaria>
+      <ano id="1ESO"> <!-- "1ESO", "2ESO", "3ESO" o "4ESO" -->
+        <letra id="B">30</letra><!-- "A", "B" o "C" -->
+      </ano> 
+    </secundaria>
+    
+    <formacion_profesional>
+      <GEA>
+        <curso id="">25</curso> <!--  "GEA1", "GEA2" -->
+      </GEA>
+      <DAW>
+        <curso id="">25</curso> <!--  "GEA1", "GEA2" -->
+        
+        </curso>
+      </DAW>
+      <ASIR>
+        <curso id="">25</curso> <!--  "GEA1", "GEA2" -->
+        </curso>
+      </ASIR>
+    </formacion_profesional>
+    
+  </cursos>
+  
+  <asignaturas>
+    <asignatura id="FIS1" nombre="Física y Química" imparten="3ESO 4ESO"/>
+  </asignaturas>
+  
+  <departamentos>
+    <departamento id="MAT">
+      <profesor id="P001" nombre="Antonio García"/>
+      <profesor id="P002" nombre="María López"/>
+      <profesor id="P003" nombre="Carlos Fernández"/>
+    </departamento>
+  </departamentos>
+  
+  <alumnos>
+    <alumno id="A577841" curso="" letra="" edad="" repetidor="">Joaquín Reyes Amador</alumno>
+  </alumnos>
+  
+</instituto>

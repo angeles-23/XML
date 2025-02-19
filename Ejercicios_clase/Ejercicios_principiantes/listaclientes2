@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE listaClientes [
+        <!ELEMENT listaclientes (cliente)+
+        <!ELEMENT cliente (nombre | apellido)+>
+        <!ELEMENT nombre (#PCDATA)>
+        <!ELEMENT apellido ((#PCDATA)>  
+]>
+
+<listaclientes>
+    <cliente>
+        <nombre>javier</nombre>    
+        <apellido>ibarra</apellido>
+        <apellido>muñoz</apellido>
+        <nombre>Pedro</nombre>
+        <nombre>Raul</nombre>
+    </cliente>
+    <cliente>
+      <apellido>ibarra</apellido>    
+    </cliente>
+</listaclientes>

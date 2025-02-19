@@ -1,0 +1,26 @@
+﻿<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="usuarios">
+  
+    <xsd:complexType>
+      <xsd:sequence>
+      
+        <xsd:element name="usuario" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:simpleContent>
+              <xsd:extension base="xsd:string">
+                <xsd:attribute name="id" type="xsd:string" use="required"/>
+              </xsd:extension>
+            </xsd:simpleContent>
+          </xsd:complexType>
+        </xsd:element>
+              
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:key name="codigoUnico">
+      <xsd:selector xpath="usuario"/>
+        <xsd:field xpath="@id"/>
+    </xsd:key>
+    
+  </xsd:element>
+</xsd:schema>
