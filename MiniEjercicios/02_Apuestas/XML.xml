@@ -36,7 +36,7 @@
         </apuesta>
         <apuesta idApuesta="A002" usuarioId="U002" eventoId="E002">
             <monto>200€</monto> <!-- cantidad apostada + -->
-            <tipo>marcador_exacto</tipo> <!-- ganador, marcador_exacto, over_under, primer_goleador, combinada -->
+            <tipo>marcador_exacto</tipo> <!-- ganador, marcador_exacto, over_under, over_under, combinada -->
         </apuesta>
     </apuestas>
 </casaApuestas>
