@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<streaming>
+    <contenido>
+        <titulo id="T001" directorId="D001">
+            <nombre>Entrevista</nombre>
+            <tipo>serie</tipo>
+            <genero>suspense</genero>
+            <anioEstreno>2024</anioEstreno>
+            <calificacion>+16</calificacion>
+        </titulo>
+    </contenido>
+    <directores>
+        <director id="D001">
+            <nombre>David Bermejo</nombre>
+            <pais>España</pais>
+        </director>
+    </directores>
+    <usuarios>
+        <usuario id="U001">
+            <nombre>Javi</nombre>
+            <email>javi@gmail.com</email>
+            <suscripcion dia-renovacion="15" fin-contrato="30">Básica</suscripcion>
+            <historial>
+                <visualizacion contenidoId="T001">
+                    <fecha>2004</fecha>
+                    <progreso>56%</progreso>
+                </visualizacion>
+            </historial>
+        </usuario>
+    </usuarios>
+</streaming>

@@ -1,0 +1,29 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="casaApuestas">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="usuarios" type="usuariosType"/>
+                <xsd:element name="eventos" type="eventosType"/>
+                <xsd:element name="apuestas" type="apuestasType"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="usuariosType">
+        <xsd:sequence>
+            <xsd:element name="usuario" type="usuarioType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="usuarioType">
+        <xsd:sequence>
+            <xsd:element name="nombre" type="xsd:string"/>
+            <xsd:element name="edad" type="edadType"/>
+            <xsd:element name="email" type="emailType"/>
+            <xsd:element name="saldo" type="xsd:positiveInteger"/>
+        </xsd:sequence>
+        <xsd:attribute name="idUsuario" type="idUsuarioType" use="required"/>
+    </xsd:complexType>
+
+</xsd:schema>

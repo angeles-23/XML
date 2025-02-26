@@ -1,0 +1,35 @@
+<!DOCTYPE casaApuestas [
+    <!ELEMENT casaApuestas (usuarios, eventos, apuestas)>
+
+    <!ELEMENT usuarios (usuario+)>
+    <!ELEMENT eventos (evento+)>
+    <!ELEMENT apuestas (apuesta+)>
+
+    <!-- usuarios -->
+    <!ATTLIST usuario idUsuario ID #REQUIRED>
+    <!ELEMENT usuario (nombre, edad, email, saldo)>
+
+    <!-- eventos -->
+    <!ATTLIST evento idEvento ID #REQUIRED>
+    <!ELEMENT evento (deporte, equipo1, equipo2, fecha)>
+
+    <!-- apuestas -->
+    <!ATTLIST apuesta 
+        idApuesta ID #REQUIRED
+        usuarioId IDREF #REQUIRED
+        eventoId IDREF #REQUIRED
+    >
+    <!ELEMENT apuesta (monto, tipo)>
+
+
+    <!ELEMENT nombre (#PCDATA)>
+    <!ELEMENT edad (#PCDATA)>
+    <!ELEMENT email (#PCDATA)>
+    <!ELEMENT saldo (#PCDATA)>
+    <!ELEMENT deporte (#PCDATA)>
+    <!ELEMENT equipo1 (#PCDATA)>
+    <!ELEMENT equipo2 (#PCDATA)>
+    <!ELEMENT fecha (#PCDATA)>
+    <!ELEMENT monto (#PCDATA)>
+    <!ELEMENT tipo (#PCDATA)>
+]>
