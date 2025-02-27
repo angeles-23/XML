@@ -222,11 +222,230 @@ Crea:
 
 **XML + DTD:**  
 ```xml
+<?xml version="1.0" encoding="UTF-8"?>
 
+<casaApuestas>
+    <usuarios>
+        <usuario idUsuario="U001"> <!-- atributo único -->
+            <nombre>María</nombre>
+            <edad>20</edad> <!-- mínimo 18 años -->
+            <email>maria20@gmail.com</email>
+            <saldo>500€</saldo>
+        </usuario>
+        <usuario idUsuario="U002"> <!-- atributo único -->
+            <nombre>Carol</nombre>
+            <edad>25</edad> <!-- mínimo 18 años -->
+            <email>maria25@gmail.com</email>
+            <saldo>300€</saldo>
+        </usuario>
+    </usuarios>
+    <eventos>
+        <evento idEvento="E001">
+            <deporte>Fútbol</deporte>
+            <equipo1>Barcelona</equipo1>
+            <equipo2>Madrid</equipo2>
+            <fecha>2025-02-26</fecha> <!-- formato AAAA-MM-DD -->
+        </evento>
+        <evento idEvento="E002">
+            <deporte>Fútbol</deporte>
+            <equipo1>Valladolid</equipo1>
+            <equipo2>Murcia</equipo2>
+            <fecha>2026-03-21</fecha> <!-- formato AAAA-MM-DD -->
+        </evento>
+    </eventos>
+    <apuestas>
+        <apuesta idApuesta="A001" usuarioId="U001" eventoId="E001">
+            <monto>100€</monto> <!-- cantidad apostada + -->
+            <tipo>ganador</tipo>
+        </apuesta>
+        <apuesta idApuesta="A002" usuarioId="U002" eventoId="E002">
+            <monto>200€</monto> <!-- cantidad apostada + -->
+            <tipo>marcador_exacto</tipo> <!-- ganador, marcador_exacto, over_under, over_under, combinada -->
+        </apuesta>
+    </apuestas>
+</casaApuestas>
+
+<!DOCTYPE casaApuestas [
+    <!ELEMENT casaApuestas (usuarios, eventos, apuestas)>
+
+    <!ELEMENT usuarios (usuario+)>
+    <!ELEMENT eventos (evento+)>
+    <!ELEMENT apuestas (apuesta+)>
+
+    <!-- usuarios -->
+    <!ATTLIST usuario idUsuario ID #REQUIRED>
+    <!ELEMENT usuario (nombre, edad, email, saldo)>
+
+    <!-- eventos -->
+    <!ATTLIST evento idEvento ID #REQUIRED>
+    <!ELEMENT evento (deporte, equipo1, equipo2, fecha)>
+
+    <!-- apuestas -->
+    <!ATTLIST apuesta 
+        idApuesta ID #REQUIRED
+        usuarioId IDREF #REQUIRED
+        eventoId IDREF #REQUIRED
+    >
+    <!ELEMENT apuesta (monto, tipo)>
+
+
+    <!ELEMENT nombre (#PCDATA)>
+    <!ELEMENT edad (#PCDATA)>
+    <!ELEMENT email (#PCDATA)>
+    <!ELEMENT saldo (#PCDATA)>
+    <!ELEMENT deporte (#PCDATA)>
+    <!ELEMENT equipo1 (#PCDATA)>
+    <!ELEMENT equipo2 (#PCDATA)>
+    <!ELEMENT fecha (#PCDATA)>
+    <!ELEMENT monto (#PCDATA)>
+    <!ELEMENT tipo (#PCDATA)>
+]>
 ```  
 
 **XSD:**  
 ```xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="casaApuestas">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="usuarios" type="usuariosType"/>
+                <xsd:element name="eventos" type="eventosType"/>
+                <xsd:element name="apuestas" type="apuestasType"/>
+            </xsd:sequence>
+        </xsd:complexType>
+
+        <xsd:key name="claveIDUsuario">
+            <xsd:selector xpath="usuarios/usuario"/>
+            <xsd:field xpath="@idUsuario"/>
+        </xsd:key>
+        
+        <xsd:key name="claveIDEvento">
+            <xsd:selector xpath="eventos/evento"/>
+            <xsd:field xpath="@idEvento"/>
+        </xsd:key>
+        
+        <xsd:key name="claveIDApuesta">
+            <xsd:selector xpath="apuestas/apuesta"/>
+            <xsd:field xpath="@idApuesta"/>
+        </xsd:key>
+
+        <xsd:keyref name="claveRefUsuario" refer="claveIDUsuario">
+            <xsd:selector xpath="apuestas/apuesta"/>
+            <xsd:field xpath="@usuarioId"/>
+        </xsd:keyref>
+
+        <xsd:keyref name="claveRefEvento" refer="claveIDEvento">
+            <xsd:selector xpath="apuestas/apuesta"/>
+            <xsd:field xpath="@eventoId"/>
+        </xsd:keyref>
+
+    </xsd:element>
+
+<!-- USUARIOS -->
+    <xsd:complexType name="usuariosType">
+        <xsd:sequence>
+            <xsd:element name="usuario" type="usuarioType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="usuarioType">
+        <xsd:sequence>
+            <xsd:element name="nombre" type="xsd:string"/>
+            <xsd:element name="edad" type="edadType"/>
+            <xsd:element name="email" type="emailType"/>
+            <xsd:element name="saldo" type="xsd:string"/>
+        </xsd:sequence>
+        <xsd:attribute name="idUsuario" type="idUsuarioType" use="required"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="idUsuarioType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="U[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="edadType">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="18"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="emailType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[a-zA-Z0-9._+-]+@[a-zA-Z0-9._+-]+\.[a-zA-Z]{2,10}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+<!-- EVENTOS -->
+    <xsd:complexType name="eventosType">
+        <xsd:sequence>
+            <xsd:element name="evento" type="eventoType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="eventoType">
+        <xsd:sequence>
+            <xsd:element name="deporte" type="xsd:string"/>
+            <xsd:element name="equipo1" type="xsd:string"/>
+            <xsd:element name="equipo2" type="xsd:string"/>
+            <xsd:element name="fecha" type="fechaType"/>
+        </xsd:sequence>
+        <xsd:attribute name="idEvento" type="idEventoType" use="required"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="idEventoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="E[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="fechaType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+<!-- APUESTAS -->
+    <xsd:complexType name="apuestasType">
+        <xsd:sequence>
+            <xsd:element name="apuesta" type="apuestaType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="apuestaType">
+        <xsd:sequence>
+            <xsd:element name="monto" type="montoType"/>
+            <xsd:element name="tipo" type="tipoType"/>
+        </xsd:sequence>
+        <xsd:attribute name="idApuesta" type="idApuestaType" use="required"/>
+        <xsd:attribute name="usuarioId" type="idUsuarioType" use="required"/>
+        <xsd:attribute name="eventoId" type="idEventoType" use="required"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="montoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]+€"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="tipoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ganador"/>
+            <xsd:enumeration value="marcador_exacto"/>
+            <xsd:enumeration value="over_under"/>
+            <xsd:enumeration value="over_under"/>
+            <xsd:enumeration value="combinada"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="idApuestaType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="A[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>
 
 ```
 

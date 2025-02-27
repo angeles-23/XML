@@ -24,6 +24,15 @@
             <xsd:field xpath="@idApuesta"/>
         </xsd:key>
 
+        <xsd:keyref name="claveRefUsuario" refer="claveIDUsuario">
+            <xsd:selector xpath="apuestas/apuesta"/>
+            <xsd:field xpath="@usuarioId"/>
+        </xsd:keyref>
+
+        <xsd:keyref name="claveRefEvento" refer="claveIDEvento">
+            <xsd:selector xpath="apuestas/apuesta"/>
+            <xsd:field xpath="@eventoId"/>
+        </xsd:keyref>
 
     </xsd:element>
 
@@ -39,7 +48,7 @@
             <xsd:element name="nombre" type="xsd:string"/>
             <xsd:element name="edad" type="edadType"/>
             <xsd:element name="email" type="emailType"/>
-            <xsd:element name="saldo" type="xsd:positiveInteger"/>
+            <xsd:element name="saldo" type="xsd:string"/>
         </xsd:sequence>
         <xsd:attribute name="idUsuario" type="idUsuarioType" use="required"/>
     </xsd:complexType>
@@ -58,7 +67,7 @@
 
     <xsd:simpleType name="emailType">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[a-zA-Z0-9_+-]+@[a-zA-Z0-9_+-]\.[a-zA-Z]{2,10}"/>
+            <xsd:pattern value="[a-zA-Z0-9._+-]+@[a-zA-Z0-9._+-]+\.[a-zA-Z]{2,10}"/>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -109,8 +118,8 @@
     </xsd:complexType>
 
     <xsd:simpleType name="montoType">
-        <xsd:restriction base="xsd:integer">
-            <xsd:minInclusive value="1"/>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]+€"/>
         </xsd:restriction>
     </xsd:simpleType>
 
