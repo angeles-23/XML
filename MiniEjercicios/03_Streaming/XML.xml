@@ -1,0 +1,35 @@
+<stramig>
+    <contenido>
+        <titulo idTitulo="T_001" directorId="D_001">  <!-- + -->
+            <nombre>La Casa de Papel</nombre>
+            <tipo>serie</tipo> <!-- pelicula | serie-->
+            <genero>Accion</genero>
+            <anioEstreno>2019</anioEstreno> <!-- 4 dígitos -->
+            <calificacion>16</calificacion> <!-- edad recomendada-->
+        </titulo>
+    </contenido>
+
+    <directores>
+        <director idDirector="D_001">
+            <nombre>Marcos Martínez</nombre>
+            <pais>España</pais>
+        </director>
+    </directores>
+
+    <usuarios>
+        <usuarios idUsuario="U_001">
+            <nombre>Miguel Torres</nombre>
+            <email>migueltorres201@gmail.com</email> <!-- formato válido -->
+            <subscripcion dia-renovacion="15" fin-contrato="31"> <!-- DR=max31, FC=?+31-->
+                <!-- TEXTO -> (básica|estándar|premium) -->
+            </subscripcion> 
+            <historial>
+                <visualizacion contenidoId="C_001"> <!-- + -->
+                    <fecha>2021-12-19</fecha>
+                    <progreso>56%</progreso> <!-- 0-100% -->
+                </visualizacion> 
+            </historial>
+        </usuarios>
+    </usuarios>
+
+</stramig>
