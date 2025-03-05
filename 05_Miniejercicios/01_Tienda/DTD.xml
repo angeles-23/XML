@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE pedidos [
+    <!ELEMENT pedidos (pedido+)>
+    <!ATTLIST pedido 
+        idPedido ID #REQUIRED
+    >
+    <!ELEMENT pedido (fecha, cliente, productos)>
+    <!ATTLIST cliente 
+        idCliente ID #REQUIRED
+    >
+    <!ELEMENT cliente (nombre, email, telefono)>
+    <!ELEMENT productos (producto+)>
+    <!ATTLIST producto 
+        idProducto ID #REQUIRED
+    >
+    <!ELEMENT producto (nombre, precio, cantidad+)>
+
+    <!ELEMENT fecha (#PCDATA)>
+    <!ELEMENT nombre (#PCDATA)>
+    <!ELEMENT email (#PCDATA)>
+    <!ELEMENT telefono (#PCDATA)>
+    <!ELEMENT precio (#PCDATA)>
+    <!ELEMENT cantidad (#PCDATA)>
+]>

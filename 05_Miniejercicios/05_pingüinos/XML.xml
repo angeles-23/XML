@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reserva>
+    <especies>
+        <especie idEspecie="E_001"> <!-- ID + -->
+            <nombre>Lolu</nombre>
+            <tamaño>120</tamaño> <!--30-130 cm -->
+            <peso>16.900</peso> <!-- 1-40kg -->
+        </especie>
+    </especies>
+    <habitats>
+        <habitat idHabitat="H_001"> <!-- ID + -->
+            <nombre>Roca del frío</nombre>
+            <temperatura>-10</temperatura>
+            <superficie>136.25</superficie> <!-- m²-->
+        </habitat>
+    </habitats>
+    <cuidadores>
+        <cuidador idCuidador="C_001" habitatId="H_001"> <!-- ID +     REF -->
+            <nombre>Juan</nombre>
+            <experiencia>10</experiencia> <!-- años -->
+        </cuidador>
+    </cuidadores>
+</reserva>
