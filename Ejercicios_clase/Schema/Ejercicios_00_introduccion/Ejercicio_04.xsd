@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xsd:element name="dni" type="tipoDNI"/>
-    <xsd:simpleType name="tipoDNI">
-      <xsd:restriction base="xsd:string">
-        <xsd:element value="\d{7,8}[A-Z]"/>
-      </xsd:restriction>
-    </xsd:simpleType>
-</xsd:schema>
