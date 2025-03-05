@@ -1,0 +1,142 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="casaApuestas">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="usuarios" type="usuariosType"/>
+                <xsd:element name="eventos" type="eventosType"/>
+                <xsd:element name="apuestas" type="apuestasType"/>
+            </xsd:sequence>
+        </xsd:complexType>
+
+        <xsd:key name="claveIDUsuario">
+            <xsd:selector xpath="usuarios/usuario"/>
+            <xsd:field xpath="@idUsuario"/>
+        </xsd:key>
+        
+        <xsd:key name="claveIDEvento">
+            <xsd:selector xpath="eventos/evento"/>
+            <xsd:field xpath="@idEvento"/>
+        </xsd:key>
+        
+        <xsd:key name="claveIDApuesta">
+            <xsd:selector xpath="apuestas/apuesta"/>
+            <xsd:field xpath="@idApuesta"/>
+        </xsd:key>
+
+        <xsd:keyref name="claveRefUsuario" refer="claveIDUsuario">
+            <xsd:selector xpath="apuestas/apuesta"/>
+            <xsd:field xpath="@usuarioId"/>
+        </xsd:keyref>
+
+        <xsd:keyref name="claveRefEvento" refer="claveIDEvento">
+            <xsd:selector xpath="apuestas/apuesta"/>
+            <xsd:field xpath="@eventoId"/>
+        </xsd:keyref>
+
+    </xsd:element>
+
+<!-- USUARIOS -->
+    <xsd:complexType name="usuariosType">
+        <xsd:sequence>
+            <xsd:element name="usuario" type="usuarioType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="usuarioType">
+        <xsd:sequence>
+            <xsd:element name="nombre" type="xsd:string"/>
+            <xsd:element name="edad" type="edadType"/>
+            <xsd:element name="email" type="emailType"/>
+            <xsd:element name="saldo" type="xsd:string"/>
+        </xsd:sequence>
+        <xsd:attribute name="idUsuario" type="idUsuarioType" use="required"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="idUsuarioType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="U[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="edadType">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="18"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="emailType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[a-zA-Z0-9._+-]+@[a-zA-Z0-9._+-]+\.[a-zA-Z]{2,10}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+<!-- EVENTOS -->
+    <xsd:complexType name="eventosType">
+        <xsd:sequence>
+            <xsd:element name="evento" type="eventoType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="eventoType">
+        <xsd:sequence>
+            <xsd:element name="deporte" type="xsd:string"/>
+            <xsd:element name="equipo1" type="xsd:string"/>
+            <xsd:element name="equipo2" type="xsd:string"/>
+            <xsd:element name="fecha" type="fechaType"/>
+        </xsd:sequence>
+        <xsd:attribute name="idEvento" type="idEventoType" use="required"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="idEventoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="E[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="fechaType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+<!-- APUESTAS -->
+    <xsd:complexType name="apuestasType">
+        <xsd:sequence>
+            <xsd:element name="apuesta" type="apuestaType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="apuestaType">
+        <xsd:sequence>
+            <xsd:element name="monto" type="montoType"/>
+            <xsd:element name="tipo" type="tipoType"/>
+        </xsd:sequence>
+        <xsd:attribute name="idApuesta" type="idApuestaType" use="required"/>
+        <xsd:attribute name="usuarioId" type="idUsuarioType" use="required"/>
+        <xsd:attribute name="eventoId" type="idEventoType" use="required"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="montoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]+€"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="tipoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ganador"/>
+            <xsd:enumeration value="marcador_exacto"/>
+            <xsd:enumeration value="over_under"/>
+            <xsd:enumeration value="over_under"/>
+            <xsd:enumeration value="combinada"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="idApuestaType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="A[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>

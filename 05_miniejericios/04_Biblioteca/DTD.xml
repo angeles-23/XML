@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE biblioteca [
+
+    <!ELEMENT biblioteca (juego)>
+    <!ATTLIST juego idJuego ID #REQUIRED>
+    <!ELEMENT juego (nombre, genero, fecha_lanzamiento, desarrollador, usuarios)>
+    <!ELEMENT desarrollador (nombre_estudio, pais)>
+    <!ELEMENT usuarios (usuario+)>
+    <!ATTLIST usuario idUsuario ID #REQUIRED>
+    <!ELEMENT usuario (nombre, email, horas_jugado)>
+    
+    <!ELEMENT nombre (#PCDATA)>
+    <!ELEMENT genero (#PCDATA)>
+    <!ELEMENT fecha_lanzamiento (#PCDATA)>
+    <!ELEMENT nombre_estudio (#PCDATA)>
+    <!ELEMENT pais (#PCDATA)>
+    <!ELEMENT email (#PCDATA)>
+    <!ELEMENT horas_jugado (#PCDATA)>
+]>

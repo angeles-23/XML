@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<biblioteca>
+    <juego idJuego="J001"> <!-- ID-->
+        <nombre>Parchis</nombre>
+        <genero>Entretenimiento</genero>
+        <fecha_lanzamiento>2023-06-23</fecha_lanzamiento> <!--  formato correcto -->
+        <desarrollador>
+            <nombre_estudio>ParchisMagic</nombre_estudio>
+            <pais>Estados Unidos</pais>
+        </desarrollador>
+        <usuarios>
+            <usuario idUsuario="U001"> <!-- ID + -->
+                <nombre>Lidia</nombre>
+                <email>lidia26@gmail.com</email> <!--  formato correcto -->
+                <horas_jugado>165</horas_jugado>
+            </usuario>
+            <usuario idUsuario="U002"> <!-- ID + -->
+                <nombre>Pedro</nombre>
+                <email>pedro26romero@gmail.com</email>
+                <horas_jugado>16</horas_jugado> <!-- numero positivo-->
+            </usuario>
+        </usuarios>
+    </juego>
+</biblioteca>
