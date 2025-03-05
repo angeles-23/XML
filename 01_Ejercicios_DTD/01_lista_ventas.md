@@ -9,3 +9,37 @@ Unos programadores necesitan un formato de fichero para que sus distintos progra
   - Vendedor.
   - Fecha (optativa).
   - Un codigo de factura.
+  
+
+#### SOLUCION
+``` xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE listaventas[
+    <!ELEMENT listaventas (venta+)>
+    <!ELEMENT venta (importe, comprador, vendedor, fecha?, codigoFactura)>
+    <!ELEMENT importe (#PCDATA)>
+    <!ELEMENT comprador (#PCDATA)>
+    <!ELEMENT vendedor (#PCDATA)>
+    <!ELEMENT fecha (#PCDATA)>
+    <!ELEMENT codigoFactura (#PCDATA)>
+]>
+
+
+<listaventas>
+    <venta>
+        <importe>15€</importe>
+        <comprador>Manuel</comprador>
+        <vendedor>Juan</vendedor>
+        <fecha>2020-11-16</fecha> <!-- ? -->
+        <codigoFactura>13526</codigoFactura>
+    </venta>
+    <venta>
+        <importe>15€</importe>
+        <comprador>Manuel</comprador>
+        <vendedor>Juan</vendedor>
+        <fecha>2020-11-16</fecha> <!-- ? -->
+        <codigoFactura>13526</codigoFactura>
+    </venta>
+</listaventas>
+```
